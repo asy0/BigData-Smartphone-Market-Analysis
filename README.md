@@ -1,13 +1,15 @@
 # Big Data Analytics Project
-
+## Information about Database
+We use a PostgreSQL Database provided by *NEON's* online Services to avoid multiple local database installations.
 ## Database Connection - Necessary!!!
+Install drivers
 ```bash
 # install drivers
 pip install psycopg2-binary python-dotenv
 ```
 Check **.env** in project root (with correct credentials) exists.
 
-The main.py attempts a Database connection on start. If the connection fails the program exits.
+The main.py file attempts a Database connection on start. If the connection fails the program exits.
 
 ## Setting up Database Schema
 This is **useful** for testing and writing sql-queries!
