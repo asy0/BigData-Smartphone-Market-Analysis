@@ -158,13 +158,6 @@ python main.py
 python -c "from src.mobile_api_example import search_device; print(search_device('iPhone 15'))"
 ```
 
-#### Option C: Test Everything
-
-```bash
-# Run comprehensive test suite
-python test_project.py
-```
-
 ## Project Components
 
 ### 1. Data Source Layer
@@ -277,14 +270,28 @@ export JAVA_HOME=/path/to/java
 ## Setup Documentation
 
 For detailed setup instructions, see:
-- MobileAPI Setup: `get from https://app.mobileapi.dev/` 
-- Kaggle Dataset: Download from Kaggle and place in `data/mobile_devices.csv`
+- **MobileAPI:**
+  - API Endpoint: https://api.mobileapi.dev/devices/search/
+  - Documentation & API Key Registration: https://app.mobileapi.dev/
+- **Kaggle Dataset:**
+  - Kaggle Datasets Platform: https://www.kaggle.com/datasets
+  - Search for: "mobile phone specification"
+  - Download CSV and place in `data/mobile_devices.csv`
 
 ## Notes
 
-Kaggle Dataset: Download from Kaggle (search for "mobile phone specification") and place CSV file in `data/mobile_devices.csv`. The project includes a sample dataset structure if no file is found.
+**Kaggle Dataset:**
+- Platform: https://www.kaggle.com/datasets
+- Search for: "mobile phone specification"
+- Download CSV and place in `data/mobile_devices.csv`
+- The project includes a sample dataset structure if no file is found.
 
-API Keys: Keep API keys secure, never commit `.env` file. Get MobileAPI key from https://app.mobileapi.dev/ . Copy `config/env.example` to `.env` and fill in your credentials.
+**API Keys:**
+- Keep API keys secure, never commit `.env` file
+- **MobileAPI:**
+  - API Endpoint: https://api.mobileapi.dev/devices/search/
+  - Get API key from: https://app.mobileapi.dev/
+  - Copy `config/env.example` to `.env` and fill in your credentials
 
 Project Structure: All Python modules are in `src/` directory. Notebooks use `from src.module import ...` syntax. Configuration files are in `config/` directory.
 
@@ -300,9 +307,19 @@ This project is for educational purposes.
 
 ## Next Steps
 
-1. Get MobileAPI Key: Register at https://app.mobileapi.dev/ 
-2. Download Kaggle Dataset: Visit https://www.kaggle.com/datasets, search for "mobile phone specification", download and place CSV in `data/mobile_devices.csv`
-3. Configure Environment: Copy `config/env.example` to `.env` in project root and fill in your credentials (PostgreSQL, MongoDB, MobileAPI key)
-4. Run Notebooks: Execute notebooks in sequence (01 to 05). Make sure to restart kernel after opening notebooks and use `from src.module import ...` syntax
+1. **Get MobileAPI Key:**
+   - Register at: https://app.mobileapi.dev/
+   - API Documentation: https://api.mobileapi.dev/devices/search/
+2. **Download Kaggle Dataset:**
+   - Visit: https://www.kaggle.com/datasets
+   - Search for: "mobile phone specification"
+   - Download CSV and place in `data/mobile_devices.csv`
+3. **Configure Environment:**
+   - Copy `config/env.example` to `.env` in project root
+   - Fill in your credentials (PostgreSQL, MongoDB, MobileAPI key)
+4. **Run Notebooks:**
+   - Execute notebooks in sequence (01 to 05)
+   - Make sure to restart kernel after opening notebooks
+   - Use `from src.module import ...` syntax
 
 Use the credentials from the `.env` file in your project root.
