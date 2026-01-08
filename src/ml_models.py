@@ -103,7 +103,7 @@ def train_category_classification_model(df: pd.DataFrame) -> dict:
     if 'price_category' not in features_df.columns:
         features_df['price_category'] = pd.cut(
             features_df['price'],
-            bins=[0, 500, 1000, float('inf')],
+            bins=[0, 5000, 20000, float('inf')],
             labels=['Budget', 'Mid-range', 'Premium']
         )
     
@@ -112,7 +112,30 @@ def train_category_classification_model(df: pd.DataFrame) -> dict:
     feature_cols = [col for col in feature_cols if col in features_df.columns]
     
     X = features_df[feature_cols].fillna(0)
-    y = features_df['price_category'].astype(str)
+    
+    # Create target: use price_category if available, otherwise create from price
+    if 'price_category' in features_df.columns:
+        y = features_df['price_category'].astype(str)
+        # Replace 'nan' strings with actual category based on price
+        mask = (y == 'nan') | (y == 'NaN')
+        if mask.any():
+            y[mask] = pd.cut(
+                features_df.loc[mask, 'price'],
+                bins=[0, 5000, 20000, float('inf')],
+                labels=['Budget', 'Mid-range', 'Premium']
+            ).astype(str)
+    else:
+        # Create category from price
+        y = pd.cut(
+            features_df['price'],
+            bins=[0, 5000, 20000, float('inf')],
+            labels=['Budget', 'Mid-range', 'Premium']
+        ).astype(str)
+    
+    # Filter out any remaining NaN values
+    valid_mask = ~(y.isna() | (y == 'nan') | (y == 'NaN'))
+    X = X[valid_mask]
+    y = y[valid_mask]
     
     # Encode target
     le_target = LabelEncoder()
@@ -137,7 +160,25 @@ def train_category_classification_model(df: pd.DataFrame) -> dict:
     
     # Metrics
     accuracy = accuracy_score(y_test, y_pred)
-    report = classification_report(y_test, y_pred, target_names=le_target.classes_)
+    
+    # Get unique classes in test data
+    unique_classes = np.unique(np.concatenate([y_test, y_pred]))
+    available_class_names = [le_target.classes_[i] for i in unique_classes if i < len(le_target.classes_)]
+    
+    # Create classification report with only available classes
+    try:
+        report = classification_report(
+            y_test, y_pred, 
+            labels=unique_classes,
+            target_names=available_class_names if len(available_class_names) == len(unique_classes) else None,
+            zero_division=0
+        )
+    except ValueError:
+        # Fallback if class mismatch
+        report = classification_report(
+            y_test, y_pred,
+            zero_division=0
+        )
     
     return {
         'model': model,
